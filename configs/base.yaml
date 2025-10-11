@@ -1,0 +1,32 @@
+experiment_family: mi_within_subject
+dataset: BCICIV-1
+subject_id: a
+run: calibration
+
+filter:
+  bandpass: [8, 30]
+
+epoch:
+  tmin: -1.0
+  tmax: 4.0
+  crop: [0.5, 3.5]
+
+csp:
+  n_components: 4
+  reg: ledoit_wolf
+  logvar: true
+
+lda:
+  solver: lsqr
+  shrinkage: auto
+
+cv:
+  type: RepeatedStratifiedKFold
+  n_splits: 5
+  n_repeats: 10
+  seed: 42
+
+bootstrap:
+  R: 5000
+  stratified: true
+  seed: 7
