@@ -1,0 +1,49 @@
+# High level metadata
+experiment:
+  name: mi_csp_lda
+  description: "CSP+LDA with RepeatedStratifiedKFold + bootstrap CI"
+  seed: 42
+
+# Data config
+data:
+  X_path: "./data/x_y/{dataset_type}/X_{subject_id}.np.npy"
+  y_path: "./data/x_y/{dataset_type}/y_{subject_id}.np.npy"
+  subject_id: b
+  dataset_type: calibration
+
+# CSP config
+csp:
+  n_components: 4
+  reg: "ledoit_wolf"
+  log: true
+  norm_trace: false
+
+# LDA config
+lda:
+  solver: "lsqr"
+  shrinkage: "auto"
+
+# Cross-validation (RSKF)
+cv:
+  rskf:
+    name: "RandomStratifiedKFold"
+    n_splits: 5
+    n_repeats: 10
+    shuffle: true
+    random_state: 42
+  skf:
+    name: "StratifiedKFold"
+    n_splits: 3
+    shuffle: true
+    random_state: 42
+
+param_grid:
+  n_components: [2, 4, 6, 8]
+  lda_shrinkage: ['auto', null]
+  lda_solver: ['lsqr', 'eigen']
+
+# Output locations
+output:
+  dir: "./results/{dataset_type}/sub-{subject_id}"
+  metrics_file: "metrics.json"
+  folds_scores_file: "fold_scores.csv"
