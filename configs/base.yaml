@@ -1,32 +1,51 @@
-experiment_family: mi_within_subject
-dataset: BCICIV-1
-subject_id: a
-run: calibration
-
-filter:
-  bandpass: [8, 30]
-
-epoch:
-  tmin: -1.0
-  tmax: 4.0
-  crop: [0.5, 3.5]
-
-csp:
-  n_components: 4
-  reg: ledoit_wolf
-  logvar: true
-
-lda:
-  solver: lsqr
-  shrinkage: auto
-
-cv:
-  type: RepeatedStratifiedKFold
-  n_splits: 5
-  n_repeats: 10
+# High level metadata
+experiment:
+  name: mi_csp_lda
+  description: "CSP+LDA with RepeatedStratifiedKFold + bootstrap CI"
   seed: 42
 
-bootstrap:
-  R: 5000
-  stratified: true
-  seed: 7
+# Data config
+data:
+  X_path: "./data/x_y/{dataset_type}/X_{subject_id}.np.npy"
+  y_path: "./data/x_y/{dataset_type}/y_{subject_id}.np.npy"
+  subject_id: b
+  dataset_type: calibration
+
+# CSP config
+csp:
+  n_components: 4
+  reg: "ledoit_wolf"
+  log: true
+  norm_trace: false
+
+# LDA config
+lda:
+  solver: "lsqr"
+  shrinkage: "auto"
+
+# Cross-validation (RSKF)
+cv:
+  rskf:
+    name: "RandomStratifiedKFold"
+    n_splits: 5
+    n_repeats: 10
+    shuffle: true
+    random_state: 42
+  skf:
+    name: "StratifiedKFold"
+    n_splits: 3
+    shuffle: true
+    random_state: 42
+  cv_type: "nested"
+
+
+param_grid:
+  n_components: [2, 4, 6, 8]
+  lda_shrinkage: ['auto', null]
+  lda_solver: ['lsqr', 'eigen']
+
+# Output locations
+output:
+  dir: "./results/{dataset_type}/sub-{subject_id}"
+  metrics_file: "metrics.json"
+  fold_scores_file: "fold_scores.csv"
