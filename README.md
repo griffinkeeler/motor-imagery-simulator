@@ -15,13 +15,14 @@ from [Dataset 1](https://www.bbci.de/competition/iv/desc_1.html) of the BCI Comp
 
 ## Modeling & Performance 
 
-| Subject | Run         | Features     | CV scheme                      | Splits/Folds | Groups unit | CSP comps | Classifier | Metric       | Mean ± SD   | Class-wise acc | Permutation BA (mean ± SD) | p-value | Leakage guards |
-|---------|-------------|--------------|--------------------------------|--------------|-------------|-----------|------------|--------------|-------------|----------------|----------------------------|---------|----------------|
-| A       | Calibration | CSP(log-var) | Stratified Shuffle Split (SSS) | 10           | trial       | 4         | LDA        | Balanced Acc | 0.69 ± 0.13 | L: 78% F: 59%  |                            |         |                |
-| B       | Calibration | CSP(log-var) | Stratified Shuffle Split (SSS) | 10           | trial       | 4         | LDA        | Balanced Acc | 0.80 ± 0.06 | L: 75% R: 85%  |                            |         |                |
-| F       | Calibration | CSP(log-var) | Stratified Shuffle Split (SSS) | 10           | trial       | 4         | LDA        | Balanced Acc | 0.91 ± 0.04 | L: 87% F: 94%  |                            |         |                |
-| G       | Calibration | CSP(log-var) | Stratified Shuffle Split (SSS) | 10           | trial       | 4         | LDA        | Balanced Acc | 0.88 ± 0.08 | L: 88% R: 88%  |                            |         |                |
-| B       | Calibration | CSP(log-var) | Stratified K Fold              | 5            | trial       | 4         | LDA        | Balanced Acc | 0.76 ± 0.04 | L: 70% R: 83%  | 76.5%                      | 0.001   |                |
+| Subject | Run         | Features     | CV scheme                      | Splits/Folds | Groups unit | CSP comps | Classifier | Metric       | Mean ± SD   | Class-wise acc | 95% Bootstrap CI | Permutation BA (mean ± SD) | p-value | Leakage guards |
+|---------|-------------|--------------|--------------------------------|--------------|-------------|-----------|------------|--------------|-------------|----------------|------------------|----------------------------|---------|----------------|
+| A       | Calibration | CSP(log-var) | Stratified Shuffle Split (SSS) | 10           | trial       | 4         | LDA        | Balanced Acc | 0.69 ± 0.13 | L: 78% F: 59%  |                  |                            |         |                |
+| B       | Calibration | CSP(log-var) | Stratified Shuffle Split (SSS) | 10           | trial       | 4         | LDA        | Balanced Acc | 0.80 ± 0.06 | L: 75% R: 85%  |                  |                            |         |                |
+| F       | Calibration | CSP(log-var) | Stratified Shuffle Split (SSS) | 10           | trial       | 4         | LDA        | Balanced Acc | 0.91 ± 0.04 | L: 87% F: 94%  |                  |                            |         |                |
+| G       | Calibration | CSP(log-var) | Stratified Shuffle Split (SSS) | 10           | trial       | 4         | LDA        | Balanced Acc | 0.88 ± 0.08 | L: 88% R: 88%  |                  |                            |         |                |
+| B       | Calibration | CSP(log-var) | Stratified K Fold              | 5            | trial       | 4         | LDA        | Balanced Acc | 0.76 ± 0.04 | L: 70% R: 83%  |                  | 76.5%                      | 0.001   |                |
+| G       | Calibration | CSP(log-var) | Stratified K Fold              | 5x10         | OOF trials  | 4         | LDA        | Balanced Acc |             |                |                  |                            |         |                |
 
 
 ## Bootstraps
