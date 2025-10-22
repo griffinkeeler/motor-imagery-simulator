@@ -1,32 +1,52 @@
-experiment_family: mi_within_subject
-dataset: BCICIV-1
-subject_id: a
-run: calibration
-
-filter:
-  bandpass: [8, 30]
-
-epoch:
-  tmin: -1.0
-  tmax: 4.0
-  crop: [0.5, 3.5]
-
 csp:
+  log: true
   n_components: 4
+  norm_trace: false
   reg: ledoit_wolf
-  logvar: true
-
-lda:
-  solver: lsqr
-  shrinkage: auto
 
 cv:
-  type: RepeatedStratifiedKFold
-  n_splits: 5
-  n_repeats: 10
+  cv_type: nested
+  rskf:
+    n_repeats: 10
+    n_splits: 5
+    name: RandomStratifiedKFold
+    random_state: 42
+    shuffle: true
+  skf:
+    n_splits: 3
+    name: StratifiedKFold
+    random_state: 42
+    shuffle: true
+
+data:
+  X_path: ./data/x_y/{dataset_type}/X_{subject_id}.np.npy
+  dataset_type: calibration
+  subject_id: b
+  y_path: ./data/x_y/{dataset_type}/y_{subject_id}.np.npy
+
+experiment:
+  description: CSP+LDA with RepeatedStratifiedKFold + bootstrap CI
+  name: mi_csp_lda
   seed: 42
 
-bootstrap:
-  R: 5000
-  stratified: true
-  seed: 7
+lda:
+  shrinkage: auto
+  solver: lsqr
+
+output:
+  dir: ./results/{dataset_type}/sub-{subject_id}/{cv_type}
+  fold_scores_file: fold_scores.csv
+  metrics_file: metrics.json
+
+param_grid:
+  lda_shrinkage:
+  - auto
+  - null
+  lda_solver:
+  - lsqr
+  - eigen
+  n_components:
+  - 2
+  - 4
+  - 6
+  - 8
