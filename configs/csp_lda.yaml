@@ -1,0 +1,9 @@
+csp:
+  log: true
+  n_components: 4
+  norm_trace: false
+  reg: ledoit_wolf
+
+lda:
+  shrinkage: auto
+  solver: lsqr
